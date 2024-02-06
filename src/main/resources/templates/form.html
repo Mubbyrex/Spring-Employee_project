@@ -11,17 +11,17 @@
 <div class="container">
     <h1 class="mt-4">Registration An Employee</h1>
 
-    <form th:action="@{/register}" method="post">
+    <form th:action="@{/register}" th:object="${personForm}" method="post">
         <div class="mb-3">
             <label for="firstName" class="form-label">First Name:</label>
-            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter first name">
-            <span class="text-danger"></span>
+            <input type="text" class="form-control" id="firstName" name="firstName"  th:field="*{firstName}" placeholder="Enter first name">
+            <span class="text-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Name Error</span>
         </div>
 
         <div class="mb-3">
             <label for="lastName" class="form-label">Last Name:</label>
-            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Enter last name">
-            <span class="text-danger"></span>
+            <input type="text" class="form-control" id="lastName" name="lastName" th:field="*{lastName}" placeholder="Enter last name">
+            <span class="text-danger" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Name Error</span>
         </div>
 
         <div class="mb-3">
@@ -36,14 +36,14 @@
 
         <div class="mb-3">
             <label for="email" class="form-label">Email:</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
-            <span class="text-danger"></span>
+            <input type="email" class="form-control" id="email" name="email" th:field="*{email}" placeholder="Enter email">
+            <span class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
         </div>
 
         <div class="mb-3">
             <label for="password" class="form-label">Password:</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="Enter password">
-            <span class="text-danger"></span>
+            <input type="password" class="form-control" id="password" name="password"  th:field="*{password}" placeholder="Enter password">
+            <span class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
         </div>
 
 <!--        <div class="mb-3">-->
