@@ -1,5 +1,6 @@
 package com.example.thymeleaf.project;
 
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -79,7 +80,13 @@ public class EmployeeController {
 
 //    Form Submission
 @RequestMapping(value = "/register", method = RequestMethod.POST)
-public String register(@ModelAttribute("employee") Employee employee,Model model) {
+public String register(@Valid Employee employee, BindingResult bindingResult, Model model) {
+
+//        Validation
+    if (bindingResult.hasErrors()) {
+        return "form";
+    }
+
     employeeService.createEmployee(employee);
 
     Map<String, String> principal = principalUserAccess.userInfoCollector();

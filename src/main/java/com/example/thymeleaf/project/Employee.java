@@ -3,23 +3,34 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "employees")
 public class Employee {
+    @NotNull
+    @Size(min=2, max=30)
     @Column(name = "firstname")
     private String firstName;
+    @NotNull
+    @Size(min=2, max=30)
     @Column(name = "lastname")
     private String lastName;
+    @Email(message = "Email should be valid")
     @Column(name = "email")
     private String email;
     @Column(name = "id")
     @Id
      private Integer id;
+    @NotNull
     @Column(name = "position")
      private String position;
+    @NotNull
     @Column(name = "password")
      private String password;
+    @NotNull
     @Column(name = "roles")
      private String role;
 
