@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Add Bootstrap CSS Demo</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+</head>
+
+<body>
+
+<!-- ALERT th:if="${userCreated}"-->
+<!--<div  class="alert alert-success alert-dismissible fade show" role="alert">-->
+<!--    User created successfully!-->
+<!--    <button type="button" class="close" data-dismiss="alert" aria-label="Close">-->
+<!--<span aria-hidden="true">&times;</span>-->
+<!--    </button>-->
+<!--</div>-->
+
+<!-- NAVBAR -->
+<nav th:fragment="nav" class="navbar navbar-expand-lg navbar-dark bg-dark ">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Seaico Technologies</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a th:href="@{'/list'}" class="nav-link active" aria-current="page" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container">
+        <header class="jumbotron my-5">
+            <div class="container">
+                <h1 class="display-4">Seaico's Virtual Employees</h1>
+                <p class="lead">Click on an employee's email to view more details</p>
+                <div class="d-flex">
+                    <img src="../../images/seaico_logo.png" style="max-width: 50%;" class="img-fluid col-6" alt="Image" title="GTVG logo"
+                     th:src="@{/seaico_logo.png}" th:alt-title="#{logo}" />
+                    <div class="col-6 d-flex justify-content-center">
+                        <a class="btn btn-primary" th:href="@{'/createForm'}" style="width: 35%; margin: auto">Add Employees</a>
+                        <a th:if="${principal.role == 'ADMIN'}" style="width: 35%; margin: auto" class="btn btn-primary"  th:href="@{/admin}">Go to Admin Panel</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Index</th>
+                <th>Employee First Name</th>
+                <th>Employee Last Name</th>
+                <th>Role</th>
+                <th>Employee Email</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="employee, iStat : ${employees.content}">
+                    <td th:text="${employee.id}"></td>
+                    <td th:text="${employee.firstName}"></td>
+                    <td th:text="${employee.lastName}"></td>
+                    <td th:text="${employee.position}"></td>
+                    <td >
+                        <a th:href="@{'/employee-details/' + ${employee.id}}">
+                        <p th:text="${employee.email}">sample</p>
+                        </a>
+                    </td>
+
+            </tr>
+            </tbody>
+        </table>
+</div>
+
+<nav aria-label="Page navigation example" class="mx-auto w-25">
+    <ul class="pagination">
+        <li th:if="${employees.totalPages > 0}"
+            th:each="pageNumber : ${pageNumbers}" class="page-item"><a
+                th:href="@{/list(size=${employees.size}, page=${pageNumber})}"
+                th:text=${pageNumber}
+
+                class="page-link" href="#"></a></li>
+    </ul>
+</nav>
+
+<!--Footer-->
+<footer th:fragment="footer" class="py-4 bg-dark text-white-50">
+    <div class="container">
+        <p class="text-center">Copyright &copy; 2024 Seaico Technologies</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
