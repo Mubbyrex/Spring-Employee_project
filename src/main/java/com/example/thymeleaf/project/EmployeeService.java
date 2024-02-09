@@ -40,4 +40,9 @@ public class EmployeeService {
     public void deleteEmployee(int employee_id){
         employeeDao.deleteEmployee(employee_id);
     }
+
+    public void updateEmployee(Employee employee){
+        employeeDao.updateEmployee(employee);
+    }
 }
+

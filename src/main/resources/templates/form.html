@@ -11,7 +11,7 @@
 <div class="container">
     <h1 class="mt-4">Registration An Employee</h1>
 
-    <form th:action="@{/register}" th:object="${personForm}" method="post">
+    <form th:action="@{/register}" th:object="${employee}" method="post">
         <div class="mb-3">
             <label for="firstName" class="form-label">First Name:</label>
             <input type="text" class="form-control" id="firstName" name="firstName"  th:field="*{firstName}" placeholder="Enter first name">
@@ -31,19 +31,18 @@
                 <option value="FO">Front Officer</option>
                 <option value="IT">Technical Analyst</option>
             </select>
-            <span class="text-danger"></span>
         </div>
 
         <div class="mb-3">
             <label for="email" class="form-label">Email:</label>
             <input type="email" class="form-control" id="email" name="email" th:field="*{email}" placeholder="Enter email">
-            <span class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+            <span class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Name Error</span>
         </div>
 
         <div class="mb-3">
             <label for="password" class="form-label">Password:</label>
             <input type="password" class="form-control" id="password" name="password"  th:field="*{password}" placeholder="Enter password">
-            <span class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+            <span class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Name Error</span>
         </div>
 
 <!--        <div class="mb-3">-->

@@ -3,9 +3,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "employees")
@@ -18,8 +16,10 @@ public class Employee {
     @Size(min=2, max=30)
     @Column(name = "lastname")
     private String lastName;
-    @Email(message = "Email should be valid")
+
     @Column(name = "email")
+    @NotEmpty(message = "The email is required.")
+    @Email(message = "Invalid email format")
     private String email;
     @Column(name = "id")
     @Id
@@ -27,10 +27,13 @@ public class Employee {
     @NotNull
     @Column(name = "position")
      private String position;
-    @NotNull
+
+
     @Column(name = "password")
+    @NotBlank(message = "The password is required.")
+    @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!*()]).{8,}$", message = "Password must be 8 characters long and combination of uppercase letters, lowercase letters, numbers, special characters.")
      private String password;
-    @NotNull
+
     @Column(name = "roles")
      private String role;
 

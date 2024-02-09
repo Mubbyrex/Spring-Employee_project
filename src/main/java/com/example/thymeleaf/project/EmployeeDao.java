@@ -5,6 +5,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -43,14 +45,36 @@ public class EmployeeDao {
                 throw new RuntimeException("Failed to save employee", ex);
             }
     }
-//    public int updateEmployee(Employee e) {
-//        try {
-//            String query = "update employee set name = ?, salary = ? where id = ?";
-//            return jdbcTemplate.update(query, e.getName(), e.getSalary(), e.getId());
-//        } catch (DataAccessException ex) {
-//            throw new RuntimeException("Failed to update employee", ex);
-//        }
-//    }
+    public int updateEmployee(Employee e) {
+        try {
+            String query = "update employees set firstName = ?, lastName = ?, position= ?, email=? where id = ?;";
+
+//            debug
+//            PreparedStatement ps = jdbcTemplate.getDataSource().getConnection().prepareStatement(query);
+//
+            // Set parameter values in the prepared statement
+//            ps.setString(1, e.getFirstName());
+//            ps.setString(2, e.getLastName());
+//            ps.setString(3, e.getPosition());
+//            ps.setString(4, e.getEmail());
+//            ps.setInt(5, e.getId());
+
+            // Print the query before execution for debugging purposes
+//            System.out.println("Prepared statement query: " + ps.toString());
+//
+//            // Execute the update statement
+//            int rowsUpdated = ps.executeUpdate();
+//
+//            // Close the prepared statement
+//            ps.close();
+
+            return jdbcTemplate.update(query, e.getFirstName(), e.getLastName(), e.getPosition(), e.getEmail(), e.getId());
+
+        } catch (DataAccessException ex) {
+            throw new RuntimeException("Failed to update employee", ex);
+        }
+    }
+
     public int deleteEmployee(int id) {
         try {
             String query = "delete from employees where id = ?";

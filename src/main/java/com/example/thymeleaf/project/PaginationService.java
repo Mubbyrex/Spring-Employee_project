@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 public class PaginationService {
@@ -36,4 +39,20 @@ public class PaginationService {
 
         return employeePage;
     }
+
+    public Page<Employee> implementPaginated(Optional<Integer> page, Optional<Integer> size) {
+
+        int currentPage = page.orElse(1);
+        int pageSize = size.orElse(5);
+
+        Page<Employee> employees;
+        return employees = this.findPaginated(PageRequest.of(currentPage - 1, pageSize));
+    }
+
+    public List<Integer> pageNum(int totalPages) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            return pageNumbers;
+        }
 }

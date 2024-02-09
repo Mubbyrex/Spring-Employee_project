@@ -34,19 +34,14 @@ public class EmployeeController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String iteration(Model model,Optional<Integer> page,Optional<Integer> size ){
 
-    //       Pagination logic
-        int currentPage = page.orElse(1);
-        int pageSize = size.orElse(5);
 
-        Page<Employee> employees = paginationService.findPaginated(PageRequest.of(currentPage - 1, pageSize));
-
+        Page<Employee> employees = paginationService.implementPaginated(page,size);
         model.addAttribute("employees", employees);
+
 
         int totalPages = employees.getTotalPages();
         if (totalPages > 0) {
-            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-                    .boxed()
-                    .collect(Collectors.toList());
+            List<Integer> pageNumbers = paginationService.pageNum(totalPages);
             model.addAttribute("pageNumbers", pageNumbers);
         }
 
@@ -54,10 +49,11 @@ public class EmployeeController {
         Map<String, String> principal = principalUserAccess.userInfoCollector();
         model.addAttribute("principal", principal);
 
-
         return "homepage";
     }
 
+
+//    Single Employee
     @GetMapping("/employee-details/{employeeId}")
     public String employee_details(@PathVariable Integer employeeId, Model model) {
         List<Employee> employeesList = this.employeeService.fetchEmployees();
@@ -71,9 +67,11 @@ public class EmployeeController {
         return "singleEmployee";
     }
 
+
 //    Form
     @GetMapping("/createForm")
-    public String createForm(){
+    public String createForm(Model model){
+        model.addAttribute("employee", new Employee());
         return "form";
     }
 
@@ -81,6 +79,7 @@ public class EmployeeController {
 //    Form Submission
 @RequestMapping(value = "/register", method = RequestMethod.POST)
 public String register(@Valid Employee employee, BindingResult bindingResult, Model model) {
+
 
 //        Validation
     if (bindingResult.hasErrors()) {
@@ -98,6 +97,12 @@ public String register(@Valid Employee employee, BindingResult bindingResult, Mo
 
         model.addAttribute("employees", employees);
         model.addAttribute("principal", principal);
+
+        int totalPages = employees.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = paginationService.pageNum(totalPages);
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
         return "homepage";
     }
     return "success";
@@ -129,6 +134,43 @@ public String register(@Valid Employee employee, BindingResult bindingResult, Mo
         List<Employee> employees = this.employeeService.fetchEmployees();
         model.addAttribute("employees", employees);
 
+        return "admin";
+    }
+
+
+//    Edit Employee
+    @RequestMapping(value = "/employees/edit/{empId}", method = RequestMethod.POST)
+    public String EditEmployee(@PathVariable Integer empId, Model model){
+
+        List<Employee> employeesList = this.employeeService.fetchEmployees();
+        Employee singleEmployee = null;
+        for(Employee employee : employeesList){
+            if (employee.getId() == empId){
+                singleEmployee = employee;
+            }
+        }
+        model.addAttribute("employee", singleEmployee);
+
+        return "update";
+    }
+
+    @RequestMapping(value = "/editEmployee/{id}", method = RequestMethod.POST)
+    public String updateEmployee(@ModelAttribute @Valid Employee employeeData, BindingResult bindingResult, Model model) {
+
+
+//        Validation
+        if (bindingResult.hasErrors() && !bindingResult.hasFieldErrors("password") ) {
+
+            model.addAttribute("employee", employeeData);
+            System.out.println(bindingResult.getAllErrors());
+
+            return "update";
+        }
+
+        employeeService.updateEmployee(employeeData);
+
+        List<Employee> employeesList = this.employeeService.fetchEmployees();
+        model.addAttribute("employees", employeesList);
         return "admin";
     }
 }

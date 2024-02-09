@@ -40,6 +40,8 @@ public class WebSecurityConfig{
                 .httpBasic(withDefaults())
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")
+                        .loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/list", true)
                         .permitAll()
                 )
                 .authorizeHttpRequests((authorize) -> authorize
