@@ -1,4 +1,4 @@
-package com.example.thymeleaf.project;
+package com.example.thymeleaf.project.DTO;
 
 public class Employee_Protected {
     private String firstName;

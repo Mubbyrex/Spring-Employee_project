@@ -1,14 +1,19 @@
-package com.example.thymeleaf.project;
+package com.example.thymeleaf.project.Service;
 
+import com.example.thymeleaf.project.Employee;
+import com.example.thymeleaf.project.PrincipalUserAccess;
+import com.example.thymeleaf.project.Service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -18,6 +23,8 @@ public class PaginationService {
 
     @Autowired
     private EmployeeService employeeService;
+    @Autowired
+    private PrincipalUserAccess principalUserAccess;
 
     public Page<Employee> findPaginated(Pageable pageable) {
 
@@ -55,4 +62,23 @@ public class PaginationService {
                     .collect(Collectors.toList());
             return pageNumbers;
         }
+
+    public String EmployeesWithPagination(Model model, Optional<Integer> page, Optional<Integer> size ){
+
+        Page<Employee> employees = this.implementPaginated(page,size);
+        model.addAttribute("employees", employees);
+
+
+        int totalPages = employees.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = this.pageNum(totalPages);
+            model.addAttribute("pageNumbers", pageNumbers);
+        }
+
+//      current logged-in user
+        Map<String, String> principal = principalUserAccess.userInfoCollector();
+        model.addAttribute("principal", principal);
+
+        return "homepage";
+    }
 }

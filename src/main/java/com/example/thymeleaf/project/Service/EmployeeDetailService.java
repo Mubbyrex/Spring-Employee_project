@@ -1,4 +1,7 @@
-package com.example.thymeleaf.project;
+package com.example.thymeleaf.project.Service;
+import com.example.thymeleaf.project.Employee;
+import com.example.thymeleaf.project.EmployeeDetails;
+import com.example.thymeleaf.project.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
