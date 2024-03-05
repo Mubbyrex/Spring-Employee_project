@@ -1,18 +1,13 @@
 package com.example.thymeleaf.project.Controller;
 
-import com.example.thymeleaf.project.PrincipalUserAccess;
-import com.example.thymeleaf.project.Security.JWTGenerator;
-import com.example.thymeleaf.project.Service.EmployeeService;
-import com.example.thymeleaf.project.Service.JWTBlacklistService;
+
 import com.example.thymeleaf.project.Service.AuthService;
-import com.example.thymeleaf.project.Service.PaginationService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.security.authentication.AuthenticationManager;
 
 @Controller
 @RequestMapping("/auth")

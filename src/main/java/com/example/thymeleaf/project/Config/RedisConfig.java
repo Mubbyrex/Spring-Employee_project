@@ -12,6 +12,8 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 import redis.clients.jedis.Connection;
 import redis.clients.jedis.Jedis;
 
+import static java.lang.System.getProperty;
+
 @Configuration
 public class RedisConfig {
 
@@ -20,7 +22,7 @@ public JedisConnectionFactory redisConnectionFactory() {
     RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
     redisStandaloneConfiguration.setHostName("redis-12397.c281.us-east-1-2.ec2.cloud.redislabs.com");
     redisStandaloneConfiguration.setPort(12397);
-    redisStandaloneConfiguration.setPassword(RedisPassword.of("Temmyre6x$"));
+    redisStandaloneConfiguration.setPassword(RedisPassword.of(System.getenv("REDIS_PASSWORD")));
     redisStandaloneConfiguration.setUsername("admin");
 
     return new JedisConnectionFactory(redisStandaloneConfiguration);
